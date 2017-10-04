@@ -1,0 +1,13 @@
+.animalsDiv {
+	display: inline-block;
+	margin: 10px;
+}
+
+button {
+	padding: 5px;
+	margin: 5px;
+}
+
+#animalForm {
+	float: left;
+}
