@@ -14,7 +14,7 @@ $(document).ready(function() {
 		}
 	};
 
-// click button to call gify api and append images to div
+	// click button to call gify api and append images to div
 	$("#animalButtons").on("click","button",function() {
 		$("#animals").empty();
 		selection = $(this).attr("data-id");
@@ -23,16 +23,19 @@ $(document).ready(function() {
 	          url: queryURL,
 	          method: "GET"
 	        })
+		 // once ajax returns, process response and append to page
 	        .done(function(response) {
 	          var results = response.data;
 	          console.log(results);
 	          for (var i = 0; i < results.length; i++) {
+	          	console.log(results);
 	          	var animalAnimate = results[i].images.fixed_height.url;
-	          	var animalStill = results[i].images["480w_still"].url;
+	          	var animalStill = results[i].images.fixed_height_still.url;
 	          	var animalsDiv = $("<div class='animalsDiv'>");
 	          	var p = $("<p>").text("Rating: " + results[i].rating);
 	          	var image = $("<img>");
 	          	image.attr("class", "animalIcon")
+	          	.attr("data-state", "still")
 	          	.attr("data-still", animalStill)
 	          	.attr("data-Animate", animalAnimate)
 	          	.attr("src", animalStill)
@@ -43,21 +46,19 @@ $(document).ready(function() {
 	      });
 	});
 
-	$("img").on("click",function() {
-		alert("click")
+	// click images to animate or stop
+	$("body").on("click","img", function() {
 ;		var state = $(this).attr("data-state");
 		if (state === "still") {
-			alert("test");
 			$(this).attr("src", $(this).attr("data-animate"));
 			$(this).attr("data-state", "animate");
 		} else {
-			alert("test2");
 			$(this).attr("src", $(this).attr("data-still"));
 	        $(this).attr("data-state", "still");
 		}
 	});
 
-// add a new animal to the array
+	// add a new animal to the array
 	$("#add-animal").on("click",function(event){
 		event.preventDefault();
 		var addAnimal = $("#animal-input").val().trim();
@@ -65,7 +66,7 @@ $(document).ready(function() {
 		$("#animal-input").val('');
 		showButtons();
 		});
-	// call showButtons to modify html
+// call showButtons to modify html
 showButtons();
 });
 
